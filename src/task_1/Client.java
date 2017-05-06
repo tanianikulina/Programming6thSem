@@ -1,4 +1,4 @@
-package chat;
+package task_1;
 
 import java.io.*;
 import java.net.*;

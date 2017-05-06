@@ -1,4 +1,4 @@
-package chat;
+package task_1;
 
 import java.io.*;
 import java.net.*;
@@ -13,9 +13,9 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                OneMoreClient client = new OneMoreClient(socket);
-                client.start();
-                bufferedWriters.add(client.getBufferedWriter());
+                NewClient newClient = new NewClient(socket);
+                newClient.start();
+                bufferedWriters.add(newClient.getBufferedWriter());
 
                 Thread writeToSocket = new Thread(() -> {
                     String s;
@@ -36,11 +36,11 @@ public class Server {
 
                 Thread readFromSocket = new Thread(() -> {
                     String s;
-                    BufferedReader socketReader = client.getSocketReader();
+                    BufferedReader socketReader = newClient.getSocketReader();
                     try {
                         while ((s = socketReader.readLine()) != null) {
                             System.out.println(s);
-                            BufferedWriter thisBufferedWriter = client.getBufferedWriter();
+                            BufferedWriter thisBufferedWriter = newClient.getBufferedWriter();
                             for (BufferedWriter bufferedWriter : bufferedWriters) {
                                 if (bufferedWriter != thisBufferedWriter) {
                                     bufferedWriter.write(s);
